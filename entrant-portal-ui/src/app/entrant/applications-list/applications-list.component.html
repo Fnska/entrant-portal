@@ -1,0 +1,55 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col" *ngIf="isAdmin()">Username</th>
+      <th scope="col">Faculty</th>
+      <th scope="col">Course</th>
+      <th scope="col">Status</th>
+      <th scope="col">Seats</th>
+      <th scope="col">Priority</th>
+      <th scope="col">Rating</th>
+      <th scope="col">Exams</th>
+      <th scope="col" *ngIf="isAdmin()">Edit</th>
+    </tr>
+  </thead>
+  <tbody *ngFor="let application of applications | paginate : {
+      itemsPerPage: pageSize,
+      currentPage: page,
+      totalItems: count
+    }; let i = index">
+    <tr>
+      <th scope="row">{{ application.id }}</th>
+      <td *ngIf="isAdmin()">{{ application.user.login }}</td>
+      <td>{{ application.course.faculty.name }}</td>
+      <td>{{ application.course.name }}</td>
+      <td [ngClass]="{'green': application.status=='APPROVED', 
+                      'red': application.status == 'REJECTED',
+                      'orange': application.status == 'WAITING',
+                      'purple': application.status == 'ADMITTED'}">{{ application.status }}</td>
+      <td>{{ application.course.seats }}</td>
+      <td>{{ application.priority }}</td>
+      <td>{{ application.rating | number: '1.1-3' }}</td>
+      <td>{{ application.examScore }}</td>
+      <td *ngIf="isAdmin()">
+        <button (click)="onEdit(application)" class="btn btn-warning"
+        ><i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<div id="pag-group" *ngIf="isAdmin()" class="d-flex justify-content-center">
+  <pagination-controls
+    previousLabel="Prev"
+    nextLabel="Next"
+    responsive="true"
+    (pageChange)="handlePageChange($event)"
+  ></pagination-controls>
+
+  <select (change)="handlePageSizeChange($event)">
+    <option *ngFor="let size of pageSizes" [ngValue]="size">
+      {{ size }}
+    </option>
+  </select>
+</div>

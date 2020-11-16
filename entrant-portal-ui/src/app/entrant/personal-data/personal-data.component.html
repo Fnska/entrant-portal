@@ -1,0 +1,76 @@
+<div class="alert alert-info" role="alert" *ngIf="isFormSent()">
+  Personal data is sent!
+</div>
+<form [formGroup]="userDataForm">
+  <div class="form-group row">
+    <label class="col-sm-2 col-form-label">Name</label>
+    <div class="col-sm-10">
+      <input id="name" type="text" class="form-control" placeholder="Name" formControlName="name" [ngClass]="{'is-invalid': name.touched && name.invalid}">
+      <div *ngIf="name.touched && name.invalid" class="invalid-feedback">Name is required</div>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label class="col-sm-2 col-form-label">Last Name</label>
+    <div class="col-sm-10">
+      <input id="lastname"type="text" class="form-control" placeholder="Last Name" formControlName="lastname" [ngClass]="{'is-invalid': lastname.touched && lastname.invalid}">
+      <div *ngIf="lastname.touched && lastname.invalid" class="invalid-feedback">Last Name is required</div>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label class="col-sm-2 col-form-label">Surname</label>
+    <div class="col-sm-10">
+      <input id="surname" type="text" class="form-control" placeholder="Surname" formControlName="surname" [ngClass]="{'is-invalid': surname.touched && surname.invalid}">
+      <div *ngIf="surname.touched && surname.invalid" class="invalid-feedback">Surname is required</div>
+    </div>
+  </div>
+</form>
+
+<form [formGroup]="passportDataFrom">
+  <div class="form-group row">
+    <label class="col-sm-2 col-form-label">Passport</label>
+    <div class="col-sm-4 mb-1">
+      <input id="series" type="text" class="form-control" placeholder="Series" formControlName="series" [ngClass]="{'is-invalid': series.touched && series.invalid}">
+      <div *ngIf="series.touched && series.invalid" class="invalid-feedback">
+        <div *ngIf="series.errors.required">Seria is required</div>
+        <div *ngIf="series.errors.pattern">Seria must be a number XXXX</div>
+      </div>
+    </div>
+
+    <div class="col-sm-6">
+      <input id="passNumber" type="text" class="form-control" placeholder="Number" formControlName="number" [ngClass]="{'is-invalid': passNumber.touched && passNumber.invalid}">
+      <div *ngIf="passNumber.touched && passNumber.invalid" class="invalid-feedback">
+        <div *ngIf="passNumber.errors.required">Passport number is required</div>
+        <div *ngIf="passNumber.errors.pattern">Passport number must be a XXXXXXX</div>
+      </div>
+    </div>
+  </div>
+</form>
+
+<form [formGroup]="lastEducationForm">
+  <div class="form-group row">
+    <label class="col-sm-2 col-form-label">Last Education</label>
+    <div class="col-sm-4 mb-1">
+      <select id="inputLastEducation" class="form-control" formControlName="grade">
+        <option selected>SCHOOL</option>
+        <option>BACHELOR</option>
+        <option>MASTER</option>
+      </select>
+    </div>
+    <div class="col-sm-6">
+      <input type="file" class="form-control-file" id="photo" (change)="onFileSelected($event)" accept=".jpeg, .jpg, .png" >
+    </div>
+  </div>
+</form>
+
+<div class="form-group row">
+  <div class="col-6">
+    <button type="submit" (click)="onSubmit()" [disabled]="userDataForm.invalid || passportDataFrom.invalid" class="btn btn-primary btn-block">Save</button>
+  </div>
+  <div class="col-6">
+    <button type="reset" class="btn btn-danger btn-block">Reset</button>
+  </div>
+</div>
+
+

@@ -1,0 +1,42 @@
+<nav class="bg-light sidebar">
+  <div class="sidebar-sticky">
+    <ul class="nav flex-column">
+      <li class="nav-item">
+        <button type="button" class="btn btn-light btn-block" routerLink="/profile">
+          <i class="fa fa-address-book" aria-hidden="true"></i>
+          Personal Data
+        </button>
+      </li>
+      <li class="nav-item">
+        <button type="button" class="btn btn-light btn-block" routerLink="/new-edu">
+          <i class="fa fa-pencil-square" aria-hidden="true"></i>
+          New Application
+        </button>
+      </li>
+      <li class="nav-item">
+        <button type="button" class="btn btn-light btn-block" routerLink="/applications">
+          <i class="fa fa-table" aria-hidden="true"></i>
+          Applications
+        </button>
+      </li>
+      <!-- <li class="nav-item" *ngIf="isAdmin()">
+        <button type="button" class="btn btn-light btn-block" routerLink="/admin-faculty">
+          <i class="fa fa-plus-square" aria-hidden="true"></i>
+          Admin Faculty Control
+        </button>
+      </li> -->
+      <li class="nav-item" *ngIf="isAdmin()">
+        <button type="button" class="btn btn-danger btn-block" (click)="onCompleteAdmissions()">
+          <i class="fa fa-ban" aria-hidden="true"></i>
+          Complete Admissions
+        </button>
+      </li>
+      <li class="nav-item" *ngIf="isAdmin()">
+        <button type="button" class="btn btn-danger btn-block" (click)="onGetReport()">
+          <i class="fa fa-file" aria-hidden="true"></i>
+          Generate Report
+        </button>
+      </li>
+    </ul>
+  </div>
+</nav>

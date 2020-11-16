@@ -1,0 +1,20 @@
+<nav class="navbar navbar-dark bg-dark flex-md-nowrap mb-2">
+  <a class="navbar-brand" routerLink="/">
+    <i class="fa fa-graduation-cap" aria-hidden="true"></i>
+    Entrant Portal
+  </a>
+  <ul class="nav">
+    <li class="nav-item">
+        <button type="button" class="btn btn-light mr-1" routerLink="/profile">
+          <i class="fa fa-user" aria-hidden="true"></i>
+          {{ login }} {{ role }}
+        </button>
+    </li>
+    <li class="nav-item">
+      <button type="button" class="btn btn-light" (click)="logout()">
+        <i class="fa fa-sign-out" aria-hidden="true"></i>
+        Logout
+      </button>
+    </li>
+  </ul>
+</nav>
