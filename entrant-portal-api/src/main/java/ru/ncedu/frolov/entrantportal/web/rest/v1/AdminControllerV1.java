@@ -75,8 +75,12 @@ public class AdminControllerV1 {
     @GetMapping("/applications/reports/create")
     public ResponseEntity<Resource> getReport(Principal principal) throws IOException {
         String token = jwtTokenProvider.createToken(principal.getName(), Role.ADMIN);
-        Runtime.getRuntime().exec("python ../python-scripts/pdf-report.py " + token);
-
+        Process process = Runtime.getRuntime().exec("python ../python-scripts/pdf-report.py " + token);
+        try {
+            process.waitFor();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         Date date = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         String filename = "report-" + formatter.format(date) + ".pdf";
