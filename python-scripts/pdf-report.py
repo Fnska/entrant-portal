@@ -1,4 +1,5 @@
 from fpdf import FPDF
+from datetime import datetime
 import requests
 import sys
 import os
@@ -46,5 +47,5 @@ if (response.status_code == requests.codes.ok):
 		next_table(pdf, table_data, epw / 3, pdf.font_size)
 
 full_path = os.path.realpath(__file__)
-pdf.output(os.path.dirname(full_path) + "/report.pdf")
+pdf.output(os.path.dirname(full_path) + "/reports/report-"+ str(datetime.date(datetime.now())) + ".pdf")
 
