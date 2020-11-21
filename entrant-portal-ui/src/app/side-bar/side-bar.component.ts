@@ -1,5 +1,5 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, Input, OnInit } from '@angular/core';
+import { HttpClient, HttpResponse } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
 import { apiUrl } from 'src/environments/environment';
 import { AuthService } from '../auth/services/auth.service';
 
@@ -10,7 +10,8 @@ import { AuthService } from '../auth/services/auth.service';
 })
 export class SideBarComponent implements OnInit {
   private role: string;
-  
+  private blob: Blob;
+
   constructor(private auth : AuthService, private http: HttpClient) { }
 
   ngOnInit(): void {
@@ -32,7 +33,19 @@ export class SideBarComponent implements OnInit {
 
   onGetReport() {
     if (confirm('Do you want to generate report?')) {
-      this.http.get(`${apiUrl}/applications/reports/create`).subscribe();
+      this.http.get<Blob>(`${apiUrl}/applications/reports/create`, 
+      {observe: 'response', responseType: 'blob' as 'json'}).subscribe(
+        (resp: HttpResponse<Blob>) => {
+          var data = resp.body;
+          this.blob = new Blob([data], {type: 'application/pdf'});
+          var downloadURL = window.URL.createObjectURL(data);
+          var link = document.createElement('a');
+          link.href = downloadURL;
+          var contentDisposition = resp.headers.get('Content-Disposition');
+          var filename = contentDisposition.split(';')[1].split('filename')[1].split('=')[1].trim().replace(/\"/g, '');
+          link.download = filename;
+          link.click();
+      });
     }
   }
 }
