@@ -1,6 +1,7 @@
 package ru.ncedu.frolov.entrantportal.web.rest.v1;
 
 import lombok.AllArgsConstructor;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -22,11 +23,14 @@ import ru.ncedu.frolov.entrantportal.security.jwt.JwtTokenProvider;
 import ru.ncedu.frolov.entrantportal.service.ApplicationService;
 import ru.ncedu.frolov.entrantportal.service.EmailService;
 import ru.ncedu.frolov.entrantportal.service.RatingService;
+import ru.ncedu.frolov.entrantportal.service.StorageService;
 import ru.ncedu.frolov.entrantportal.web.rest.v1.dto.ReportDTO;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -37,6 +41,8 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class AdminControllerV1 {
 
+    private static final String REPORT_LOCATION = "../python-scripts/reports/";
+
     private final UserRepository userRepository;
     private final ApplicationService applicationService;
     private final ApplicationRepository applicationRepository;
@@ -44,6 +50,7 @@ public class AdminControllerV1 {
     private final RatingService ratingService;
     private final EmailService emailService;
     private final JwtTokenProvider jwtTokenProvider;
+    private final StorageService storageService;
 
     @GetMapping("/users")
     public ResponseEntity<List<User>> getUsers() {
@@ -66,10 +73,21 @@ public class AdminControllerV1 {
     }
 
     @GetMapping("/applications/reports/create")
-    public ResponseEntity<?> getReport(Principal principal) throws IOException {
+    public ResponseEntity<Resource> getReport(Principal principal) throws IOException {
         String token = jwtTokenProvider.createToken(principal.getName(), Role.ADMIN);
         Runtime.getRuntime().exec("python ../python-scripts/pdf-report.py " + token);
-        return new ResponseEntity(HttpStatus.OK);
+
+        Date date = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String filename = "report-" + formatter.format(date) + ".pdf";
+        String pathname = REPORT_LOCATION + filename;
+
+        Resource file = storageService.loadAsResource(pathname);
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
+                .header(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, "Content-Disposition")
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(file);
     }
 
     @GetMapping("/applications/reports")
