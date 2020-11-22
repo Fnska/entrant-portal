@@ -24,12 +24,12 @@ public abstract class AbstractEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        AbstractEntity that = (AbstractEntity) o;
-        return Objects.equals(id, that.id);
+        AbstractEntity other = (AbstractEntity) o;
+        return Objects.equals(id, other.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return 17;
     }
 }
