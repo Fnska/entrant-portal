@@ -50,6 +50,12 @@ public class ApplicationService {
         return applicationRepository.saveAll(applications);
     }
 
+    /**
+     * Generate list of applications to send emails based on priority that not used in previous wave.
+     * @param prevWaveApplications
+     * @param priority
+     * @return new list of applications
+     */
     public List<Application> nextWaveApplications(final List<Application> prevWaveApplications,
                                                    Priority priority) {
         List<Course> courses = courseRepository.findAll();

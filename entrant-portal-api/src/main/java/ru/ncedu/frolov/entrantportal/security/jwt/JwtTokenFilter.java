@@ -21,6 +21,9 @@ import java.io.IOException;
 public class JwtTokenFilter extends GenericFilterBean {
     private final JwtTokenProvider jwtTokenProvider;
 
+    /**
+     * Filter that gets the token from the header Authorization. Token must start with "Bearer "
+     */
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         String token = jwtTokenProvider.resolveToken((HttpServletRequest) request);

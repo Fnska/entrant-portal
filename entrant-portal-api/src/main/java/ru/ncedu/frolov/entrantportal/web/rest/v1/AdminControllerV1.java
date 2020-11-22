@@ -72,6 +72,12 @@ public class AdminControllerV1 {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
+    /**
+     * Generate report-yyyy-MM-dd.pdf by call python script.
+     * @param principal
+     * @return Resource (file) to download.
+     * @throws IOException
+     */
     @GetMapping("/applications/reports/create")
     public ResponseEntity<Resource> getReport(Principal principal) throws IOException {
         String token = jwtTokenProvider.createToken(principal.getName(), Role.ADMIN);
@@ -94,6 +100,11 @@ public class AdminControllerV1 {
                 .body(file);
     }
 
+    /**
+     * Generate list of applications with passed entrants.
+     * Method calling from python script.
+     * @return
+     */
     @GetMapping("/applications/reports")
     public ResponseEntity<List<ReportDTO>> getApplicationsByCourseId() {
         List<ReportDTO> reports = new ArrayList<>();
@@ -116,6 +127,10 @@ public class AdminControllerV1 {
         return new ResponseEntity<>(app, HttpStatus.OK);
     }
 
+    /**
+     * Send email to passed entrants in 3 steps based on previous.
+     * @return
+     */
     @PostMapping("/complete")
     public ResponseEntity<?> sendFeedbackToAdmittedEntrants() {
         List<Application> firstWaveApplications = applicationRepository.findAllByRatingGreaterThanAndPriority(0.0, Priority.HIGH);

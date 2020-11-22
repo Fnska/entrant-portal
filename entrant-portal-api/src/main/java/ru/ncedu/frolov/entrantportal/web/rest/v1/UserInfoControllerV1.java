@@ -91,6 +91,12 @@ public class UserInfoControllerV1 {
         return new ResponseEntity<>(HttpStatus.FORBIDDEN);
     }
 
+    /**
+     * Generate URIs of user files by his id.
+     * @param id
+     * @return Set of user files
+     * @throws IOException
+     */
     @GetMapping("/files")
     public ResponseEntity<Set<Education>> listUploadedFiles(@PathVariable(name = "id") Long id) throws IOException {
         Optional<User> userById = userRepository.findOneWithEducationsById(id);
@@ -105,6 +111,12 @@ public class UserInfoControllerV1 {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
+    /**
+     * Get file by URI
+     * @param id
+     * @param filename
+     * @return
+     */
     @GetMapping("/files/{filename:.+}")
     public ResponseEntity<Resource> getUserUploadedFile(@PathVariable(name = "id") Long id,
                                                         @PathVariable String filename) {
@@ -116,6 +128,13 @@ public class UserInfoControllerV1 {
                 .body(file);
     }
 
+    /**
+     * Save user files on disk.
+     * @param id
+     * @param multipartFile
+     * @param grade
+     * @return
+     */
     @PostMapping("/files/upload")
     public ResponseEntity<?> saveUserUploadedFileById(@PathVariable(name = "id") Long id,
                                                       @RequestParam("image") MultipartFile multipartFile,
