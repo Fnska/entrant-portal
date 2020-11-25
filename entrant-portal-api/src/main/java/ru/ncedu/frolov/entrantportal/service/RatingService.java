@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.ncedu.frolov.entrantportal.domain.Application;
 import ru.ncedu.frolov.entrantportal.domain.Course;
+import ru.ncedu.frolov.entrantportal.domain.enums.Status;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,6 +23,7 @@ public class RatingService {
     public void calculate(Application application) {
         Course course = application.getCourse();
         List<Application> sortedApplications = applicationService.getSortedApplicationsByCoursePriorityAndExam(course)
+                .filter(a -> a.getStatus().equals(Status.APPROVED))
                 .collect(Collectors.toList());
         calculateRating(course, sortedApplications);
         applicationService.saveAll(sortedApplications);

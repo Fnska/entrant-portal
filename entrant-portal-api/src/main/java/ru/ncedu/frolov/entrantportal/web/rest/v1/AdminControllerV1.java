@@ -122,6 +122,9 @@ public class AdminControllerV1 {
 
     @PostMapping("/applications")
     public ResponseEntity<Application> saveApplications(@RequestBody Application application) {
+        if (application.getStatus().equals(Status.REJECTED) || application.getStatus().equals(Status.WAITING)) {
+            application.setRating(null);
+        }
         Application app = applicationRepository.save(application);
         ratingService.calculate(app);
         return new ResponseEntity<>(app, HttpStatus.OK);

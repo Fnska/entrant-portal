@@ -65,6 +65,7 @@ public class ApplicationService {
                     .collect(Collectors.toList());
             List<Application> notSentApplications = sortedApplications.stream()
                     .filter(a -> !containsUserId(prevWaveApplications, a.getUser().getId()))
+                    .filter(a -> a.getStatus().equals(Status.APPROVED))
                     .collect(Collectors.toList());
 
             int leftSeats = course.getLeftSeats();
