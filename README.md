@@ -17,10 +17,10 @@ Another client is the Python script, which generates a report in PDF document fo
 - Server Part
   - Java 8
   - Spring Boot
-    - Spring Security
-    - Spring Web
-    - Spring Data JPA (Hibernate)
-    - Spring Mail
+  - Spring Security
+  - Spring Web
+  - Spring Data JPA (Hibernate)
+  - Spring Mail
   - JJWT
   - Project Lombok
   - H2 Database
