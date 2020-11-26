@@ -74,9 +74,10 @@ public class AdminControllerV1 {
 
     /**
      * Generate report-yyyy-MM-dd.pdf by call python script.
-     * @param principal
+     *
+     * @param principal {@link Principal}
      * @return Resource (file) to download.
-     * @throws IOException
+     * @throws IOException if file not created by python script
      */
     @GetMapping("/applications/reports/create")
     public ResponseEntity<Resource> getReport(Principal principal) throws IOException {
@@ -103,7 +104,8 @@ public class AdminControllerV1 {
     /**
      * Generate list of applications with passed entrants.
      * Method calling from python script.
-     * @return
+     *
+     * @return {@link ResponseEntity}
      */
     @GetMapping("/applications/reports")
     public ResponseEntity<List<ReportDTO>> getApplicationsByCourseId() {
@@ -132,7 +134,8 @@ public class AdminControllerV1 {
 
     /**
      * Send email to passed entrants in 3 steps based on previous.
-     * @return
+     *
+     * @return {@link ResponseEntity}
      */
     @PostMapping("/complete")
     public ResponseEntity<?> sendFeedbackToAdmittedEntrants() {

@@ -30,7 +30,7 @@ public class EmailService {
                     " " + app.getCourse().getName() +
                     " " + app.getPriority().name() +
                     "\nVisit our office to sign the application."
-                    );
+            );
             emailSender.send(message);
         }
     }

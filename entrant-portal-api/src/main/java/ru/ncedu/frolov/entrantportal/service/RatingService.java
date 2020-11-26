@@ -18,7 +18,8 @@ public class RatingService {
 
     /**
      * Recalculates the rating to all applications at this course
-     * @param application
+     *
+     * @param application user's application to course
      */
     public void calculate(Application application) {
         Course course = application.getCourse();
@@ -32,9 +33,10 @@ public class RatingService {
     /**
      * Calculate rating for list of applications. Formula for calculating this:
      * rating = 1 - (position in sorted list) / (number of seats)
-     * So rating can be between -infinity and 1. 
-     * @param course
-     * @param applications
+     * So rating can be between -infinity and 1.
+     *
+     * @param course direction of faculty
+     * @param applications user's application to course
      */
     private void calculateRating(Course course, List<Application> applications) {
         int seats = course.getSeats();

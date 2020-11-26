@@ -52,12 +52,13 @@ public class ApplicationService {
 
     /**
      * Generate list of applications to send emails based on priority that not used in previous wave.
-     * @param prevWaveApplications
-     * @param priority
+     *
+     * @param prevWaveApplications previous wave of applications with sent emails
+     * @param priority {@link Priority}
      * @return new list of applications
      */
     public List<Application> nextWaveApplications(final List<Application> prevWaveApplications,
-                                                   Priority priority) {
+                                                  Priority priority) {
         List<Course> courses = courseRepository.findAll();
         List<Application> newWaveApplications = new ArrayList<>();
         for (Course course : courses) {
@@ -85,7 +86,7 @@ public class ApplicationService {
         return newWaveApplications;
     }
 
-    private static boolean containsUserId(final List<Application> list, final Long id){
+    private static boolean containsUserId(final List<Application> list, final Long id) {
         return list.stream().anyMatch(a -> a.getUser().getId().equals(id));
     }
 }

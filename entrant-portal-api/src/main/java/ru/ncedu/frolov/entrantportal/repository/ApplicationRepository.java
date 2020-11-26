@@ -10,7 +10,10 @@ import java.util.List;
 @Repository
 public interface ApplicationRepository extends JpaRepository<Application, Long> {
     List<Application> findAllByUser_Id(Long id);
+
     List<Application> findAllByCourse_Id(Long id);
+
     List<Application> findAllByRatingGreaterThan(Double rating);
+
     List<Application> findAllByRatingGreaterThanAndPriority(Double rating, Priority priority);
 }

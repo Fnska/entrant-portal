@@ -5,6 +5,7 @@ import ru.ncedu.frolov.entrantportal.domain.Application;
 import ru.ncedu.frolov.entrantportal.domain.Course;
 
 import java.util.List;
+
 @Data
 public class ReportDTO {
     private List<Application> applications;

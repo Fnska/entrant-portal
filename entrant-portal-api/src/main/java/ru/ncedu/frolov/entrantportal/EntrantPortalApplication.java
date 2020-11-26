@@ -2,13 +2,12 @@ package ru.ncedu.frolov.entrantportal;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.web.bind.annotation.CrossOrigin;
 
 @SpringBootApplication
 public class EntrantPortalApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(EntrantPortalApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(EntrantPortalApplication.class, args);
+    }
 
 }

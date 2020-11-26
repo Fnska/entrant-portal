@@ -22,11 +22,8 @@ import ru.ncedu.frolov.entrantportal.service.StorageService;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/users/{id}")
@@ -93,19 +90,19 @@ public class UserInfoControllerV1 {
 
     /**
      * Generate URIs of user files by his id.
-     * @param id
+     *
+     * @param id user id in database
      * @return Set of user files
-     * @throws IOException
      */
     @GetMapping("/files")
-    public ResponseEntity<Set<Education>> listUploadedFiles(@PathVariable(name = "id") Long id) throws IOException {
+    public ResponseEntity<Set<Education>> listUploadedFiles(@PathVariable(name = "id") Long id) {
         Optional<User> userById = userRepository.findOneWithEducationsById(id);
         if (userById.isPresent()) {
             User user = userById.get();
             Set<Education> educations = user.getEducations();
             educations.forEach(edu -> edu.setDocumentPath(MvcUriComponentsBuilder
-                            .fromMethodName(UserInfoControllerV1.class, "getUserUploadedFile", id, Paths.get(edu.getDocumentPath()).getFileName().toString())
-                            .build().toUri().toString()));
+                    .fromMethodName(UserInfoControllerV1.class, "getUserUploadedFile", id, Paths.get(edu.getDocumentPath()).getFileName().toString())
+                    .build().toUri().toString()));
             return new ResponseEntity<>(educations, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -113,9 +110,10 @@ public class UserInfoControllerV1 {
 
     /**
      * Get file by URI
-     * @param id
-     * @param filename
-     * @return
+     *
+     * @param id user id in database
+     * @param filename on disk
+     * @return {@link ResponseEntity}
      */
     @GetMapping("/files/{filename:.+}")
     public ResponseEntity<Resource> getUserUploadedFile(@PathVariable(name = "id") Long id,
@@ -130,15 +128,16 @@ public class UserInfoControllerV1 {
 
     /**
      * Save user files on disk.
-     * @param id
-     * @param multipartFile
-     * @param grade
-     * @return
+     *
+     * @param id user id in database
+     * @param multipartFile file from user
+     * @param grade {@link Grade} from user
+     * @return {@link ResponseEntity}
      */
     @PostMapping("/files/upload")
     public ResponseEntity<?> saveUserUploadedFileById(@PathVariable(name = "id") Long id,
                                                       @RequestParam("image") MultipartFile multipartFile,
-                                                      @RequestParam("grade") Grade grade){
+                                                      @RequestParam("grade") Grade grade) {
         String pathname = ROOT_LOCATION + id + "/" + multipartFile.getOriginalFilename();
         File file = new File(pathname);
         try {

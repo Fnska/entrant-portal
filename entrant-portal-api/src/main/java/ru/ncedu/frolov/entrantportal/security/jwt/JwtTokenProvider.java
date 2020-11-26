@@ -1,6 +1,9 @@
 package ru.ncedu.frolov.entrantportal.security.jwt;
 
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -41,8 +44,8 @@ public class JwtTokenProvider {
 
     /**
      * Build a token based on username and role. Set current time + validity time as expiration date.
-     * @param username
-     * @param role
+     * @param username token param
+     * @param role token param
      * @return token
      */
     public String createToken(String username, Role role) {
