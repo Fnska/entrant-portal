@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ApplicationEditorComponent } from './admin/application-editor/application-editor.component';
+import { EntrantsListComponent } from './admin/entrants-list/entrants-list.component';
 import { AuthGuard } from './auth/guards/auth.guard';
 import { ResourceGuard } from './auth/guards/resource.guard';
 import { ApplicationsListComponent } from './entrant/applications-list/applications-list.component';
@@ -24,6 +25,7 @@ const routes: Routes = [
       { path: 'profile', component: PersonalDataComponent},
       { path: 'new-edu', component: NewEducationListComponent},
       { path: 'applications', component: ApplicationsListComponent},
+      { path: 'entrants', component: EntrantsListComponent},
       { path: 'entrants/:id', component: EntrantInfoComponent},
       { path: 'applications/:id', component: ApplicationEditorComponent},
     ]

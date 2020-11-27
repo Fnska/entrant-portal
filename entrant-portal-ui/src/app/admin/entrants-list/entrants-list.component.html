@@ -1,0 +1,53 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Username</th>
+      <th scope="col">Status</th>
+      <th scope="col">Activate/Disable</th>
+    </tr>
+  </thead>
+  <tbody *ngFor="let entrant of entrants | paginate : {
+      itemsPerPage: pageSize,
+      currentPage: page,
+      totalItems: count
+    }; let i = index">
+    <tr>
+      <th scope="row">{{ entrant.id }}</th>
+      <td>
+        <a [routerLink]="entrant.id"
+        >{{ entrant.login }}
+        </a>
+      </td>
+      <td [ngClass]="{'green': entrant.userStatus=='ACTIVE', 
+                      'red': entrant.userStatus == 'DISABLED'}">
+                      {{ entrant.userStatus }}
+      </td>
+      <td *ngIf="entrant.userStatus == 'ACTIVE'">
+        <button (click)="onDisable(entrant)" class="btn btn-danger"
+        ><i class="fa fa-times" aria-hidden="true"></i>
+        </button>
+      </td>
+
+      <td *ngIf="entrant.userStatus == 'DISABLED'">
+        <button (click)="onActivate(entrant)" class="btn btn-success"
+        ><i class="fa fa-check" aria-hidden="true"></i>
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<div id="pag-group" class="d-flex justify-content-center">
+  <pagination-controls
+    previousLabel="Prev"
+    nextLabel="Next"
+    responsive="true"
+    (pageChange)="handlePageChange($event)"
+  ></pagination-controls>
+
+  <select (change)="handlePageSizeChange($event)" [(ngModel)]="pageSize" [compareWith]="compareFn">
+    <option *ngFor="let size of pageSizes" [value]="size">
+      {{ size }}
+    </option>
+  </select>
+</div>

@@ -16,6 +16,7 @@ import ru.ncedu.frolov.entrantportal.domain.User;
 import ru.ncedu.frolov.entrantportal.domain.enums.Priority;
 import ru.ncedu.frolov.entrantportal.domain.enums.Role;
 import ru.ncedu.frolov.entrantportal.domain.enums.Status;
+import ru.ncedu.frolov.entrantportal.domain.enums.UserStatus;
 import ru.ncedu.frolov.entrantportal.repository.ApplicationRepository;
 import ru.ncedu.frolov.entrantportal.repository.CourseRepository;
 import ru.ncedu.frolov.entrantportal.repository.UserRepository;
@@ -53,8 +54,32 @@ public class AdminControllerV1 {
     private final StorageService storageService;
 
     @GetMapping("/users")
-    public ResponseEntity<List<User>> getUsers() {
-        return new ResponseEntity<>(userRepository.findAll(), HttpStatus.OK);
+    public ResponseEntity<Page<User>> getUsers(Pageable pageable) {
+        return new ResponseEntity<>(userRepository.findAll(pageable), HttpStatus.OK);
+    }
+
+    @PostMapping("/users/{id}/disable")
+    public ResponseEntity<User> disableUser(@PathVariable(name = "id") Long id) {
+        Optional<User> userById = userRepository.findById(id);
+        if (userById.isPresent()) {
+            User user = userById.get();
+            user.setUserStatus(UserStatus.DISABLED);
+            // TODO: recalculate Rating
+            return new ResponseEntity<>(userRepository.save(user), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    @PostMapping("/users/{id}/activate")
+    public ResponseEntity<User> activateUser(@PathVariable(name = "id") Long id) {
+        Optional<User> userById = userRepository.findById(id);
+        if (userById.isPresent()) {
+            User user = userById.get();
+            user.setUserStatus(UserStatus.ACTIVE);
+            // TODO: recalculate Rating
+            return new ResponseEntity<>(userRepository.save(user), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping("/applications")

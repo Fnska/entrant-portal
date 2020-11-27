@@ -25,18 +25,26 @@
           Admin Faculty Control
         </button>
       </li> -->
-      <li class="nav-item" *ngIf="isAdmin()">
-        <button type="button" class="btn btn-info btn-block" (click)="onGetReport()">
-          <i class="fa fa-file" aria-hidden="true"></i>
-          Generate Report
-        </button>
-      </li>
-      <li class="nav-item" *ngIf="isAdmin()">
-        <button type="button" class="btn btn-danger btn-block" (click)="onCompleteAdmissions()">
-          <i class="fa fa-ban" aria-hidden="true"></i>
-          Complete Admissions
-        </button>
-      </li>
+      <div *ngIf="isAdmin()">
+        <li class="nav-item">
+          <button type="button" class="btn btn-light btn-block" routerLink="/entrants">
+            <i class="fa fa-table" aria-hidden="true"></i>
+            Entrants
+          </button>
+        </li>
+        <li class="nav-item">
+          <button type="button" class="btn btn-info btn-block" (click)="onGetReport()">
+            <i class="fa fa-file" aria-hidden="true"></i>
+            Generate Report
+          </button>
+        </li>
+        <li class="nav-item">
+          <button type="button" class="btn btn-danger btn-block" (click)="onCompleteAdmissions()">
+            <i class="fa fa-ban" aria-hidden="true"></i>
+            Complete Admissions
+          </button>
+        </li>
+      </div>
     </ul>
   </div>
 </nav>

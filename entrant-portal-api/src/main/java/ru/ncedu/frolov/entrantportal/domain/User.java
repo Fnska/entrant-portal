@@ -3,6 +3,7 @@ package ru.ncedu.frolov.entrantportal.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import ru.ncedu.frolov.entrantportal.domain.base.AbstractEntity;
 import ru.ncedu.frolov.entrantportal.domain.enums.Role;
+import ru.ncedu.frolov.entrantportal.domain.enums.UserStatus;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -37,6 +38,10 @@ public class User extends AbstractEntity {
     @JsonIgnore
     private Set<Education> educations = new HashSet<>();
 
+    @Enumerated(value = EnumType.STRING)
+    @Column(name = "status")
+    private UserStatus userStatus;
+
     public void addEducation(Education education) {
         this.educations.add(education);
         education.setUser(this);
@@ -45,6 +50,14 @@ public class User extends AbstractEntity {
     public void addApplication(Application application) {
         this.applications.add(application);
         application.setUser(this);
+    }
+
+    public UserStatus getUserStatus() {
+        return userStatus;
+    }
+
+    public void setUserStatus(UserStatus userStatus) {
+        this.userStatus = userStatus;
     }
 
     public String getLogin() {

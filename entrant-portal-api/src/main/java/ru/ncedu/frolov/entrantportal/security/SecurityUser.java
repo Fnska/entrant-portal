@@ -5,6 +5,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import ru.ncedu.frolov.entrantportal.domain.User;
+import ru.ncedu.frolov.entrantportal.domain.enums.UserStatus;
 
 import java.util.Collection;
 import java.util.List;
@@ -56,6 +57,7 @@ public class SecurityUser implements UserDetails {
                 .username(user.getLogin())
                 .password(user.getPassword())
                 .roles(user.getRole().name())
+                .disabled(UserStatus.DISABLED.equals(user.getUserStatus()))
                 .build();
     }
 }

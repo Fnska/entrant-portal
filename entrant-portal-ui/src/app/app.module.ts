@@ -17,6 +17,7 @@ import { EntrantInfoComponent } from './entrant/entrant-info/entrant-info.compon
 import { NgxPaginationModule } from 'ngx-pagination';
 import { NewEducationListComponent } from './entrant/new-education-list/new-education-list.component';
 import { FormsModule } from '@angular/forms';
+import { EntrantsListComponent } from './admin/entrants-list/entrants-list.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { FormsModule } from '@angular/forms';
     ApplicationEditorComponent,
     EntrantInfoComponent,
     NewEducationListComponent,
+    EntrantsListComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,24 @@
+.green {
+  background-color: green;
+  color: white;
+}
+
+.red {
+  background-color: red;
+  color: white;
+}
+
+.orange {
+  background-color: orange;
+  color: white;
+}
+
+.purple {
+  background-color: purple;
+  color: white;
+}
+
+#pag-group {
+  height: 30px;
+}
+
