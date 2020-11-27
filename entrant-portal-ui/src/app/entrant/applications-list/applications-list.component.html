@@ -47,8 +47,8 @@
     (pageChange)="handlePageChange($event)"
   ></pagination-controls>
 
-  <select (change)="handlePageSizeChange($event)">
-    <option *ngFor="let size of pageSizes" [ngValue]="size">
+  <select (change)="handlePageSizeChange($event)" [(ngModel)]="pageSize" [compareWith]="compareFn">
+    <option *ngFor="let size of pageSizes" [value]="size">
       {{ size }}
     </option>
   </select>

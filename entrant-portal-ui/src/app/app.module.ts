@@ -16,7 +16,7 @@ import { ApplicationEditorComponent } from './admin/application-editor/applicati
 import { EntrantInfoComponent } from './entrant/entrant-info/entrant-info.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { NewEducationListComponent } from './entrant/new-education-list/new-education-list.component';
-
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -37,6 +37,7 @@ import { NewEducationListComponent } from './entrant/new-education-list/new-educ
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
+    FormsModule,
     AuthModule,
     NgxPaginationModule
   ],

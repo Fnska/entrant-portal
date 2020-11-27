@@ -12,6 +12,8 @@ import { Application } from './application.model';
   styleUrls: ['./applications-list.component.css']
 })
 export class ApplicationsListComponent implements OnInit {
+  private readonly LAST_APP_PAGE = 'LAST_APP_PAGE';
+  private readonly LAST_APP_PAGE_SIZE = 'LAST_APP_PAGE_SIZE';
   page = 1;
   count = 0;
   pageSize = 10;
@@ -19,11 +21,19 @@ export class ApplicationsListComponent implements OnInit {
 
   applications: Application[];
   userId: string;
-  
+
   constructor(private appService: ApplicationsListService, private auth: AuthService, private router: Router) { }
 
   ngOnInit(): void {
     this.userId = this.auth.getUserId();
+    var lastPage = localStorage.getItem(this.LAST_APP_PAGE);
+    var lastPageSize = localStorage.getItem(this.LAST_APP_PAGE_SIZE);
+    if (lastPage) {
+      this.page = parseInt(lastPage);
+    }
+    if (lastPageSize) {
+      this.pageSize = parseInt(lastPageSize);
+    }
     if (this.isAdmin()) {
       this.getApplicationsForAdmin();
     } else {
@@ -35,13 +45,20 @@ export class ApplicationsListComponent implements OnInit {
 
   handlePageChange(event: any) {
     this.page = event;
+    localStorage.setItem(this.LAST_APP_PAGE, this.page.toString());
     this.getApplicationsForAdmin();
   }
 
   handlePageSizeChange(event: any) {
     this.pageSize = event.target.value;
     this.page = 1;
+    localStorage.setItem(this.LAST_APP_PAGE, this.page.toString());
+    localStorage.setItem(this.LAST_APP_PAGE_SIZE, this.pageSize.toString());
     this.getApplicationsForAdmin();
+  }
+
+  compareFn( optionOne, optionTwo ) : boolean {
+    return optionOne.id === optionTwo.id;
   }
 
   getRequestParams(page: number, pageSize: number) {
