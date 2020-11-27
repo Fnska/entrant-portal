@@ -6,9 +6,10 @@
       <th scope="col">Faculty</th>
       <th scope="col">Course</th>
       <th scope="col">Status</th>
+      <th scope="col">Position</th>
       <th scope="col">Seats</th>
       <th scope="col">Priority</th>
-      <th scope="col">Rating</th>
+      <th scope="col" *ngIf="isAdmin()">Rating</th>
       <th scope="col">Exams</th>
       <th scope="col" *ngIf="isAdmin()">Edit</th>
     </tr>
@@ -27,9 +28,10 @@
                       'red': application.status == 'REJECTED',
                       'orange': application.status == 'WAITING',
                       'purple': application.status == 'ADMITTED'}">{{ application.status }}</td>
+      <td>{{ application.position == null ? null : application.position + 1  | number }}</td>
       <td>{{ application.course.seats }}</td>
       <td>{{ application.priority }}</td>
-      <td>{{ application.rating | number: '1.1-3' }}</td>
+      <td *ngIf="isAdmin()">{{ application.rating | number: '1.1-3' }}</td>
       <td>{{ application.examScore }}</td>
       <td *ngIf="isAdmin()">
         <button (click)="onEdit(application)" class="btn btn-warning"

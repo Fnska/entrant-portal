@@ -43,6 +43,7 @@ export class ApplicationEditorComponent implements OnInit {
       course: course,
       priority: '',
       rating: {value: '', disabled: true},
+      position: {value: '', disabled: true},
       status: '',
       examScore: ''
     });

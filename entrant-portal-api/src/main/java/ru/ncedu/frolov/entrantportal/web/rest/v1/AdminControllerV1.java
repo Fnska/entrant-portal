@@ -126,6 +126,7 @@ public class AdminControllerV1 {
     public ResponseEntity<Application> saveApplications(@RequestBody Application application) {
         if (application.getStatus().equals(Status.REJECTED) || application.getStatus().equals(Status.WAITING)) {
             application.setRating(null);
+            application.setPosition(null);
         }
         Application app = applicationRepository.save(application);
         ratingService.calculate(app);

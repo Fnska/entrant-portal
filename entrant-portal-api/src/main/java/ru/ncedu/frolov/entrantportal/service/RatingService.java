@@ -44,6 +44,7 @@ public class RatingService {
         for (Application app : applications) {
             int position = applications.indexOf(app);
             rating = 1 - ((double) position / seats);
+            app.setPosition(position);
             app.setRating(rating);
         }
     }

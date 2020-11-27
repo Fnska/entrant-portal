@@ -17,6 +17,7 @@ export interface Application {
   },
   priority: number,
   rating: number,
+  position: number,
   status: string,
   examScore: number
 }

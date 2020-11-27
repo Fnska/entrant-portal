@@ -23,12 +23,22 @@ public class Application extends AbstractEntity {
     @Column(name = "rating")
     private Double rating;
 
+    @Column(name = "position")
+    private Integer position;
+
     @Enumerated(value = EnumType.STRING)
     private Status status;
 
     @Column(name = "exam_score")
     private Long examScore;
 
+    public Integer getPosition() {
+        return position;
+    }
+
+    public void setPosition(Integer position) {
+        this.position = position;
+    }
 
     public Long getExamScore() {
         return examScore;
