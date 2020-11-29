@@ -30,10 +30,7 @@ import ru.ncedu.frolov.entrantportal.web.rest.v1.dto.ReportDTO;
 import java.io.IOException;
 import java.security.Principal;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -60,11 +57,19 @@ public class AdminControllerV1 {
 
     @PostMapping("/users/{id}/disable")
     public ResponseEntity<User> disableUser(@PathVariable(name = "id") Long id) {
-        Optional<User> userById = userRepository.findById(id);
+        Optional<User> userById = userRepository.findOneWithApplicationsById(id);
         if (userById.isPresent()) {
             User user = userById.get();
             user.setUserStatus(UserStatus.DISABLED);
-            // TODO: recalculate Rating
+            Set<Application> applications = user.getApplications();
+            applications.forEach(app -> {
+                        app.setStatus(Status.REJECTED);
+                        app.setPosition(null);
+                        app.setRating(null);
+                    });
+            //TODO: send email
+            applicationService.saveAll(applications);
+            applications.forEach(ratingService::calculate);
             return new ResponseEntity<>(userRepository.save(user), HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -72,11 +77,18 @@ public class AdminControllerV1 {
 
     @PostMapping("/users/{id}/activate")
     public ResponseEntity<User> activateUser(@PathVariable(name = "id") Long id) {
-        Optional<User> userById = userRepository.findById(id);
+        Optional<User> userById = userRepository.findOneWithApplicationsById(id);
         if (userById.isPresent()) {
             User user = userById.get();
             user.setUserStatus(UserStatus.ACTIVE);
-            // TODO: recalculate Rating
+            Set<Application> applications = user.getApplications();
+            applications.forEach(app -> {
+                app.setStatus(Status.WAITING);
+                app.setPosition(null);
+                app.setRating(null);
+            });
+            applicationService.saveAll(applications);
+            applications.forEach(ratingService::calculate);
             return new ResponseEntity<>(userRepository.save(user), HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

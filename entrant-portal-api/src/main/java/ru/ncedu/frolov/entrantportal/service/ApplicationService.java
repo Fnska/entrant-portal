@@ -46,7 +46,7 @@ public class ApplicationService {
                 .sorted(compareByPriorityAndExam);
     }
 
-    public List<Application> saveAll(List<Application> applications) {
+    public List<Application> saveAll(Iterable<Application> applications) {
         return applicationRepository.saveAll(applications);
     }
 
