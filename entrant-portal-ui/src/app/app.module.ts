@@ -18,6 +18,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { NewEducationListComponent } from './entrant/new-education-list/new-education-list.component';
 import { FormsModule } from '@angular/forms';
 import { EntrantsListComponent } from './admin/entrants-list/entrants-list.component';
+import { DocumentImageComponent } from './document-image/document-image.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { EntrantsListComponent } from './admin/entrants-list/entrants-list.compo
     EntrantInfoComponent,
     NewEducationListComponent,
     EntrantsListComponent,
+    DocumentImageComponent,
   ],
   imports: [
     BrowserModule,
