@@ -36,6 +36,8 @@ export class AuthService {
     this.loggedUser = null;
     this.removeJwtToken();
     this.removeUserId();
+    this.removeAppPagination();
+    this.removeEntPagination();
     this.router.navigate(['login']);
   }
 
@@ -76,5 +78,15 @@ export class AuthService {
 
   private removeJwtToken(): void {
     localStorage.removeItem(this.JWT_TOKEN);
+  }
+
+  private removeAppPagination(): void {
+    localStorage.removeItem('LAST_APP_PAGE');
+    localStorage.removeItem('LAST_APP_PAGE_SIZE');
+  }
+
+  private removeEntPagination(): void {
+    localStorage.removeItem('LAST_ENT_PAGE');
+    localStorage.removeItem('LAST_ENT_PAGE_SIZE');
   }
 } 
