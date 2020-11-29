@@ -2,19 +2,5 @@
 <p>Last Name: {{ lastname }}</p>
 <p>Surname: {{ surname }}</p>
 <p>Passport: {{ series }} {{ number }}</p>
-<p>Last Education:</p>
-<ul *ngFor="let edu of educations">
-  <li>
-    <button 
-    type="button"
-    (click)="getImageFromService(edu.documentPath)" 
-    class="btn btn-primary"
-    data-toggle="modal"
-    data-target="#myModal"
-    >{{ edu.grade }}</button>
-  </li>
-</ul>
-<div class="col-12">
-  <img [src]="imageToShow" alt="Place image title" class="">
-</div>
+<app-document-image></app-document-image>
   

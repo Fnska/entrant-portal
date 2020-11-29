@@ -9,10 +9,11 @@ import { AuthService } from '../auth/services/auth.service';
 export class NavigationComponent implements OnInit {
   role: string;
   login: string;
-
+  entrantId: string;
   constructor(private auth: AuthService) { }
 
   ngOnInit(): void {
+    this.entrantId = localStorage.getItem('USER_ID');
     this.login = this.auth.getLoggedUser();
     this.role = this.auth.getUserRole();
   }

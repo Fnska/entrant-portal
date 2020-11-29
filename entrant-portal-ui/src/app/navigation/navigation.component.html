@@ -5,7 +5,7 @@
   </a>
   <ul class="nav">
     <li class="nav-item">
-        <button type="button" class="btn btn-light mr-1" routerLink="/profile">
+        <button type="button" class="btn btn-light mr-1" [routerLink]="'entrants/' + entrantId">
           <i class="fa fa-user" aria-hidden="true"></i>
           {{ login }} {{ role }}
         </button>

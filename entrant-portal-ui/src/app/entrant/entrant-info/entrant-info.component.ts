@@ -14,10 +14,7 @@ export class EntrantInfoComponent implements OnInit {
   surname: string;
   series: string;
   number: string;
-  isImageLoading: boolean;
   entrantId: number;
-  educations: any[];
-  imageToShow: any;
   constructor(private personalDataService: PersonalDataService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
@@ -37,35 +34,5 @@ export class EntrantInfoComponent implements OnInit {
         this.number = data.number
       }
     });
-
-    this.personalDataService.getLinksToUploadedFiles(this.entrantId.toString()).subscribe(edu => {
-      this.educations = edu;
-    });
-  }
-
-  getImageFromService(imgUrl) {
-    this.isImageLoading = true;
-    this.getImage(imgUrl).subscribe(data => {
-      this.createImageFromBlob(data);
-      this.isImageLoading = false;
-    }, error => {
-      this.isImageLoading = false;
-      console.log(error);
-    });
-  }
-
-  getImage(imageUrl: string): Observable<Blob> {
-    return this.personalDataService.getImageByUrl(imageUrl);
-  }
-  
-  createImageFromBlob(image: Blob) {
-    let reader = new FileReader();
-    reader.addEventListener("load", () => {
-       this.imageToShow = reader.result;
-    }, false);
- 
-    if (image) {
-       reader.readAsDataURL(image);
-    }
   }
 }

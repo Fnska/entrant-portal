@@ -22,8 +22,10 @@ import ru.ncedu.frolov.entrantportal.service.StorageService;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/users/{id}")
@@ -139,6 +141,13 @@ public class UserInfoControllerV1 {
                                                       @RequestParam("image") MultipartFile multipartFile,
                                                       @RequestParam("grade") Grade grade) {
         String pathname = ROOT_LOCATION + id + "/" + multipartFile.getOriginalFilename();
+        List<Education> educations = educationRepository.findByUserId(id);
+        List<String> userDocumentPaths = educations.stream()
+                .map(Education::getDocumentPath)
+                .collect(Collectors.toList());
+        if (userDocumentPaths.contains(pathname)) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
         File file = new File(pathname);
         try {
             storageService.store(multipartFile, file);

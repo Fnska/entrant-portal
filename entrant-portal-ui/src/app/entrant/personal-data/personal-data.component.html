@@ -1,6 +1,9 @@
 <div class="alert alert-info" role="alert" *ngIf="isFormSent()">
   Personal data is sent!
 </div>
+<div class="alert alert-warning" role="alert" *ngIf="isFileExist()">
+  File already exists!
+</div>
 <form [formGroup]="userDataForm">
   <div class="form-group row">
     <label class="col-sm-2 col-form-label">Name</label>

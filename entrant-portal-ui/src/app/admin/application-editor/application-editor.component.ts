@@ -21,7 +21,8 @@ export class ApplicationEditorComponent implements OnInit {
     const user = this.fb.group({
       id: {value: '', disabled: true},
       login: {value: '', disabled: true},
-      role: {value: '', disabled: true}
+      role: {value: '', disabled: true},
+      userStatus: {value: '', disabled: true}
     });
     
     const faculty = this.fb.group({

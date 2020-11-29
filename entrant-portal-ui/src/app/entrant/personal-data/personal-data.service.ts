@@ -18,8 +18,8 @@ export class PersonalDataService {
     this.http.post(`${baseUserUrl}/${userId}/data`, userData).subscribe();
   }
 
-  uploadPhoto(userId: string, uploadData: any, education: string): void {
-    this.http.post(`${baseUserUrl}/${userId}/files/upload?grade=`+education, uploadData).subscribe();
+  uploadPhoto(userId: string, uploadData: any, education: string) {
+    return this.http.post(`${baseUserUrl}/${userId}/files/upload?grade=`+education, uploadData);
   }
 
   getUserData(userId: string): Observable<any>  {

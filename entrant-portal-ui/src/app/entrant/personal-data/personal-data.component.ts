@@ -1,6 +1,8 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { AuthService } from 'src/app/auth/services/auth.service';
 
 import { PersonalDataService } from './personal-data.service';
@@ -20,13 +22,14 @@ export class PersonalDataComponent implements OnInit {
   selectedFile: File = null;
   userId: string;
   formSent: boolean;
-
+  fileExist: boolean;
+  
   constructor(private fb: FormBuilder, private personalDataService: PersonalDataService, private auth: AuthService) { }
 
   ngOnInit(): void {
     this.userId = this.auth.getUserId();
     this.formSent = false;
-
+    this.fileExist = false;
     this.passportDataFrom = this.fb.group({
       series: ['', [Validators.required, Validators.pattern('\\d{4}')]],
       number: ['', [Validators.required, Validators.pattern('\\d{6}')]]
@@ -66,7 +69,14 @@ export class PersonalDataComponent implements OnInit {
     const uploadData = new FormData();
     if (this.selectedFile != null) {
       uploadData.append('image', this.selectedFile, this.selectedFile.name);
-      this.personalDataService.uploadPhoto(this.userId, uploadData, this.grade.value);
+      this.personalDataService.uploadPhoto(this.userId, uploadData, this.grade.value).pipe(
+        catchError((err: HttpErrorResponse) => {
+          if (err.status === 409) {
+            this.fileExist = true;
+            return throwError('file already exists'); 
+          }
+        })
+      ).subscribe();;
     }
     
     this.personalDataService.saveUserData(this.userId, this.userDataForm.value);
@@ -76,6 +86,10 @@ export class PersonalDataComponent implements OnInit {
 
   isFormSent(): boolean {
     return this.formSent;
+  }
+
+  isFileExist(): boolean {
+    return this.fileExist;
   }
 
   onFileSelected(event) {
