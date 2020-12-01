@@ -67,7 +67,7 @@ public class AdminControllerV1 {
                         app.setPosition(null);
                         app.setRating(null);
                     });
-            //TODO: send email
+            emailService.sendFeedbackThatDisabled(user);
             applicationService.saveAll(applications);
             applications.forEach(ratingService::calculate);
             return new ResponseEntity<>(userRepository.save(user), HttpStatus.OK);
