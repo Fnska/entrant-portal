@@ -10,6 +10,10 @@ export class PersonalDataService {
 
   constructor(private http: HttpClient) {}
 
+  deleteImage(userId: string, education) {
+    return this.http.delete(`${baseUserUrl}/${userId}/files/delete/${education.id}`);
+  }
+
   savePassportData(userId: string, passportData: any): void {
     this.http.post(`${baseUserUrl}/${userId}/passport`, passportData).subscribe()
   }

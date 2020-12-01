@@ -8,6 +8,10 @@
     data-toggle="modal"
     data-target="#myModal"
     >{{ edu.grade }}</button>
+
+    <button (click)="onDelete(edu)" class="btn btn-danger ml-1"
+    ><i class="fa fa-times" aria-hidden="true"></i>
+    </button>
   </li>
 </ul>
 <div class="col-12">

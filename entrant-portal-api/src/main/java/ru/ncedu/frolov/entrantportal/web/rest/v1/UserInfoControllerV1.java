@@ -111,9 +111,24 @@ public class UserInfoControllerV1 {
     }
 
     /**
-     * Get file by URI
+     * Delete file record in database. Not delete actually file on disk
      *
      * @param id user id in database
+     * @param fileId file id in database
+     * @return {@link ResponseEntity}
+     */
+
+    @DeleteMapping("/files/delete/{fileId}")
+    public ResponseEntity<?> deleteFileById(@PathVariable(name = "id") Long id,
+                                            @PathVariable(name = "fileId") Long fileId) {
+        educationRepository.deleteById(fileId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    /**
+     * Get file by URI
+     *
+     * @param id       user id in database
      * @param filename on disk
      * @return {@link ResponseEntity}
      */
@@ -131,9 +146,9 @@ public class UserInfoControllerV1 {
     /**
      * Save user files on disk.
      *
-     * @param id user id in database
+     * @param id            user id in database
      * @param multipartFile file from user
-     * @param grade {@link Grade} from user
+     * @param grade         {@link Grade} from user
      * @return {@link ResponseEntity}
      */
     @PostMapping("/files/upload")

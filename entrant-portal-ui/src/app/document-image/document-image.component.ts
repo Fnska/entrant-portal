@@ -23,6 +23,14 @@ export class DocumentImageComponent implements OnInit {
     });
   }
 
+  onDelete(education): void {
+    this.personalDataService.deleteImage(this.entrantId, education).subscribe(d => {
+        this.imageToShow = null;
+        this.ngOnInit();
+      }
+    );
+  }
+
   getImageFromService(imgUrl) {
     this.isImageLoading = true;
     this.getImage(imgUrl).subscribe(data => {
